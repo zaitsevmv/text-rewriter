@@ -1,16 +1,12 @@
-import os
 from dotenv import load_dotenv, dotenv_values 
-
 from ui import App
-
-def ya_request():
-    https://translate.yandex.ru/?source_lang=ru&target_lang=emj&text=Привет%2C%20как%20дела
+from api import first_request, second_request
 
 def main():
     load_dotenv("keys.env") 
-    os.getenv("YA_KEY")
-    app = App()
+    app = App(first_request, second_request)
     app.Start()
 
 if __name__ == "__main__":
+    load_dotenv("keys.env")
     main()
