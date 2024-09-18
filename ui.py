@@ -24,30 +24,24 @@ class App():
                 new_text = self.current_func(input_text)
                 label.config(text=new_text)
 
-        # Frame for the text entry
         entry_frame = tk.Frame(self.root)
         entry_frame.pack(pady=10)
 
-        # Entry box for input text
         entry_label = tk.Label(entry_frame, text="Enter text to rephrase:", font=('Arial', 12))
         entry_label.pack(anchor="w", padx=10)
 
         entry = tk.Text(entry_frame, height=4, width=50, font=('Arial', 10))
         entry.pack(padx=10, pady=5)
 
-        # Button to trigger rephrase
         button = tk.Button(self.root, text="Rephrase", command=on_button_click, bg="#4CAF50", fg="white", font=('Arial', 12))
         button.pack(pady=10)
 
-        # Button to switch between APIs
         switch_button = tk.Button(self.root, text="Switch API", command=on_switch_click, bg="#f0ad4e", fg="white", font=('Arial', 12))
         switch_button.pack(pady=5)
 
-        # Label to show which API is currently in use
         api_label = tk.Label(self.root, text="Random API", font=('Arial', 12), fg="blue")
         api_label.pack(pady=5)
 
-        # Label to show the rephrased text output
         label_frame = tk.Frame(self.root)
         label_frame.pack(pady=10)
 
