@@ -19,15 +19,17 @@ def first_request(text):
         "Content-Type": "multipart/form-data; boundary=---011000010111000001101001"
     }
 
-    # Make the request with the payload encoded in UTF-8
     start = time.time()
     response = requests.request("POST", url, data=payload, headers=headers)
 
+    print("Time elapsed:")
     print(time.time() - start)
     
     if response.status_code == 200:
+        print(response.text)
         return response.text
     else:
+        print(response.text)
         return ""
 
     
@@ -66,8 +68,13 @@ def second_request(text):
     }
     start = time.time()
     response = requests.request("POST", url, headers=headers, data=payload, verify=False)
+
+    print("Time elapsed:")
     print(time.time() - start)
+
     if response.status_code == 200:
+        print(response.text)
         return response.json()["choices"][0]["message"]["content"]
     else:
+        print(response.text)
         return ""
