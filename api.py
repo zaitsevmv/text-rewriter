@@ -2,6 +2,7 @@ import os
 import requests
 import json
 import uuid
+import time 
 
 import requests
 import os
@@ -13,13 +14,16 @@ def first_request(text):
     payload = payload.encode('utf-8')  
 
     headers = {
-        "x-rapidapi-key": os.getenv("RAPID_KEY"),
+        "x-rapidapi-key": os.getenv("RAPID_KEY3"),
         "x-rapidapi-host": "ai-based-article-rewriter.p.rapidapi.com",
         "Content-Type": "multipart/form-data; boundary=---011000010111000001101001"
     }
 
     # Make the request with the payload encoded in UTF-8
+    start = time.time()
     response = requests.request("POST", url, data=payload, headers=headers)
+
+    print(time.time() - start)
     
     if response.status_code == 200:
         return response.text
@@ -45,11 +49,11 @@ def second_request(text):
 
     url = "https://gigachat.devices.sberbank.ru/api/v1/chat/completions"
     payload = json.dumps({
-        "model": "GigaChat",
+        "model": "GigaChat-Pro",
         "messages": [
             {
                 "role": "user",
-                "content": f"Paraphrase this text. Text: {text}"
+                "content": f"Rewrite this text: {text}. Выводи только перефразированный текст."
             }
         ],
         "stream": False,
@@ -60,8 +64,9 @@ def second_request(text):
         'Accept': 'application/json',
         'Authorization': f'Bearer {access_token}'
     }
+    start = time.time()
     response = requests.request("POST", url, headers=headers, data=payload, verify=False)
-
+    print(time.time() - start)
     if response.status_code == 200:
         return response.json()["choices"][0]["message"]["content"]
     else:

@@ -8,7 +8,7 @@ class App():
 
         self.root = tk.Tk()
         self.root.title("Rephrase Text")
-        self.root.geometry("500x400")
+        self.root.geometry("1000x550")
 
         def on_switch_click():
             if self.current_func == self.func1:
@@ -22,7 +22,10 @@ class App():
             input_text = entry.get("1.0", tk.END).strip()
             if input_text:
                 new_text = self.current_func(input_text)
-                label.config(text=new_text)
+                result_textbox.config(state=tk.NORMAL)  
+                result_textbox.delete("1.0", tk.END)   
+                result_textbox.insert(tk.END, new_text) 
+                result_textbox.config(state=tk.DISABLED)
 
         entry_frame = tk.Frame(self.root)
         entry_frame.pack(pady=10)
@@ -30,7 +33,7 @@ class App():
         entry_label = tk.Label(entry_frame, text="Enter text to rephrase:", font=('Arial', 12))
         entry_label.pack(anchor="w", padx=10)
 
-        entry = tk.Text(entry_frame, height=4, width=50, font=('Arial', 10))
+        entry = tk.Text(entry_frame, height=8, width=100, font=('Arial', 10))
         entry.pack(padx=10, pady=5)
 
         button = tk.Button(self.root, text="Rephrase", command=on_button_click, bg="#4CAF50", fg="white", font=('Arial', 12))
@@ -42,14 +45,17 @@ class App():
         api_label = tk.Label(self.root, text="Random API", font=('Arial', 12), fg="blue")
         api_label.pack(pady=5)
 
-        label_frame = tk.Frame(self.root)
-        label_frame.pack(pady=10)
+        result_frame = tk.Frame(self.root)
+        result_frame.pack(pady=10, fill="both", expand=True)
 
-        result_label = tk.Label(label_frame, text="Rephrased Text:", font=('Arial', 12))
-        result_label.pack(anchor="w", padx=10)
+        scrollbar = tk.Scrollbar(result_frame)
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
-        label = tk.Label(label_frame, text="", font=('Arial', 12), wraplength=400, justify="left", bg="lightgray", height=6, width=50)
-        label.pack(pady=5, padx=10)
+        result_textbox = tk.Text(result_frame, height=10, width=100, font=('Arial', 12), wrap=tk.WORD, yscrollcommand=scrollbar.set)
+        result_textbox.pack(pady=5, padx=10)
+        result_textbox.config(state=tk.DISABLED) 
+
+        scrollbar.config(command=result_textbox.yview)
 
     def Start(self):
         self.root.mainloop()
